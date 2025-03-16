@@ -21,11 +21,10 @@ struct DataService {
             request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
             
             do {
-                let (data, response) = try await URLSession.shared.data(for: request)
+                let (data, _) = try await URLSession.shared.data(for: request)
                 
                 let decoder = JSONDecoder()
                 let result = try decoder.decode(SearchRecipes.self, from: data)
-                print(response)
                 return result
             } catch {
                 print(error)
