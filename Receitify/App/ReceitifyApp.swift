@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct ReceitifyApp: App {
-    @State private var recipesViewModel = RecipesViewModel()
+    @State private var recipesViewModel = ReceipesViewModel()
     
     var body: some Scene {
         WindowGroup {

@@ -10,7 +10,7 @@ import Foundation
 struct SearchRecipes: Decodable {
     let offset: Int?
     let number: Int?
-    let results: [Recipe]
+    let results: [RecipeSummary]
     let totalResults: Int?
 }
 

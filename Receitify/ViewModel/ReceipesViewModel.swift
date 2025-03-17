@@ -9,16 +9,22 @@ import Foundation
 import Observation
 
 @Observable
-class RecipesViewModel {
+class ReceipesViewModel {
     let dataService = DataService()
-    var recipes: [Recipe] = []
+    var recipes: [RecipeSummary] = []
+    var selectedReceipe: Recipe? = nil
     
     func getRecipes() {
         Task {
             if let recipesData = await self.dataService.fetchRecipes()?.results {
                 recipes = recipesData
-                print(recipes)
             }
+        }
+    }
+    
+    func getReceipeDetails(id: Int) {
+        Task {
+            selectedReceipe = await dataService.fetchRecipe(id: id)
         }
     }
 }

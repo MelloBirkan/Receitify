@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(RecipesViewModel.self) private var viewModel
+    @Environment(ReceipesViewModel.self) private var viewModel
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        
         List(viewModel.recipes) { recipe in
             HStack {
                 AsyncImage(url: URL(string: recipe.image)) { Image in
@@ -22,7 +24,7 @@ struct ContentView: View {
                 } placeholder: {
                     ProgressView()
                 }
-
+                
                 Text(recipe.title)
                 
                 Spacer()
@@ -30,16 +32,22 @@ struct ContentView: View {
                 Image(systemName: "chevron.right")
                     .foregroundStyle(.blue)
             }
+            .onTapGesture {
+                viewModel.getReceipeDetails(id: recipe.id)
+            }
         }
         .listStyle(.plain)
         .padding()
         .onAppear {
             viewModel.getRecipes()
         }
+        .sheet(item: $viewModel.selectedReceipe) { _ in
+            ReceipeDetailView()
+        }
     }
 }
 
 #Preview {
     ContentView()
-        .environment(RecipesViewModel())
+        .environment(ReceipesViewModel())
 }
