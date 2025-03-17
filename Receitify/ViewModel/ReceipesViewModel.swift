@@ -14,9 +14,9 @@ class ReceipesViewModel {
     var recipes: [RecipeSummary] = []
     var selectedReceipe: Recipe? = nil
     
-    func getRecipes() {
+    func getRecipes(query: String? = nil) {
         Task {
-            if let recipesData = await self.dataService.fetchRecipes()?.results {
+            if let recipesData = await self.dataService.fetchRecipes(query: query)?.results {
                 recipes = recipesData
             }
         }

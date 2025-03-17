@@ -10,12 +10,20 @@ import Foundation
 struct DataService {
     let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String
     
-    func fetchRecipes() async -> SearchRecipes? {
+    func fetchRecipes(query: String?) async -> SearchRecipes? {
         guard let apiKey else {
             print("API key not found in Info.plist")
             return nil
         }
-        if let url = URL(string: "https://api.spoonacular.com/recipes/complexSearch") {
+        
+        var endpoint = "https://api.spoonacular.com/recipes/complexSearch"
+        
+        if let query = query {
+            let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            endpoint += "?query=\(encodedQuery)"
+        }
+        
+        if let url = URL(string: endpoint) {
             var request = URLRequest(url: url)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
